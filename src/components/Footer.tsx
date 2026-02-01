@@ -19,13 +19,13 @@ export const Footer: React.FC = () => {
                 gap: 'var(--space-4)',
                 fontSize: '0.875rem'
             }}>
-                <li>• Estimates only – not tax advice</li>
-                <li>• Updated for 2026</li>
+                <li>• Estimates only</li>
+                <li>• Actual premiums vary</li>
                 <li>• No account required</li>
                 <li>• Free to use</li>
             </ul>
             <p style={{ marginTop: 'var(--space-4)', fontSize: '0.75rem' }}>
-                &copy; 2026 Take-Home Pay Calculator. All rights reserved.
+                &copy; 2026 Car Insurance Cost Estimator. All rights reserved.
             </p>
         </footer>
     );

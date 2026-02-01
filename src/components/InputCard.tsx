@@ -1,9 +1,9 @@
 import React from 'react';
-import type { TaxInput } from '../logic/taxCalculations';
+import type { InsuranceInput } from '../logic/insuranceCalculations';
 
 interface InputCardProps {
-    values: TaxInput;
-    onChange: (field: keyof TaxInput, value: any) => void;
+    values: InsuranceInput;
+    onChange: (field: keyof InsuranceInput, value: any) => void;
 }
 
 const STATES = [
@@ -18,50 +18,30 @@ export const InputCard: React.FC<InputCardProps> = ({ values, onChange }) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value, type } = e.target;
         let finalValue: any = value;
-
         if (type === 'number') {
-            finalValue = parseFloat(value) || 0;
+            finalValue = parseInt(value) || 0;
         }
-
-        onChange(name as keyof TaxInput, finalValue);
+        onChange(name as keyof InsuranceInput, finalValue);
     };
 
     return (
         <div className="card">
             <div style={{ display: 'grid', gap: 'var(--space-4)' }}>
 
-                {/* Salary Input */}
-                <div>
-                    <label htmlFor="annualSalary">Annual Salary</label>
-                    <div style={{ position: 'relative' }}>
-                        <span style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-muted)' }}>$</span>
-                        <input
-                            id="annualSalary"
-                            name="annualSalary"
-                            type="number"
-                            value={values.annualSalary || ''}
-                            onChange={handleChange}
-                            placeholder="0"
-                            style={{ paddingLeft: '28px', fontSize: '1.25rem', fontWeight: 600 }}
-                        />
-                    </div>
-                </div>
-
-                {/* Frequency & State Row */}
+                {/* Driver Age & State Row */}
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-4)' }}>
                     <div>
-                        <label htmlFor="payFrequency">Pay Frequency</label>
-                        <select
-                            id="payFrequency"
-                            name="payFrequency"
-                            value={values.payFrequency}
+                        <label htmlFor="driverAge">Driver Age</label>
+                        <input
+                            id="driverAge"
+                            name="driverAge"
+                            type="number"
+                            min="16"
+                            max="99"
+                            value={values.driverAge || ''}
                             onChange={handleChange}
-                        >
-                            <option value="weekly">Weekly (52)</option>
-                            <option value="bi-weekly">Bi-Weekly (26)</option>
-                            <option value="semi-monthly">Semi-Monthly (24)</option>
-                            <option value="monthly">Monthly (12)</option>
-                        </select>
+                            placeholder="35"
+                        />
                     </div>
                     <div>
                         <label htmlFor="state">State</label>
@@ -78,44 +58,42 @@ export const InputCard: React.FC<InputCardProps> = ({ values, onChange }) => {
                     </div>
                 </div>
 
-                {/* Filing Status */}
+                {/* Vehicle Type */}
                 <div>
-                    <label htmlFor="filingStatus">Filing Status</label>
+                    <label htmlFor="vehicleType">Vehicle Type</label>
                     <select
-                        id="filingStatus"
-                        name="filingStatus"
-                        value={values.filingStatus}
+                        id="vehicleType"
+                        name="vehicleType"
+                        value={values.vehicleType}
                         onChange={handleChange}
                     >
-                        <option value="single">Single</option>
-                        <option value="married">Married Filing Jointly</option>
-                        <option value="head">Head of Household</option>
+                        <option value="sedan">Sedan</option>
+                        <option value="suv">SUV</option>
+                        <option value="truck">Truck</option>
+                        <option value="sports">Sports Car</option>
+                        <option value="luxury">Luxury Vehicle</option>
+                        <option value="electric">Electric Vehicle</option>
                     </select>
                 </div>
 
-                {/* Pre-Tax Deductions */}
+                {/* Coverage Level */}
                 <div>
-                    <label htmlFor="preTaxDeductions">Pre-Tax Deductions (Annual)</label>
-                    <div style={{ position: 'relative' }}>
-                        <span style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-muted)' }}>$</span>
-                        <input
-                            id="preTaxDeductions"
-                            name="preTaxDeductions"
-                            type="number"
-                            value={values.preTaxDeductions || ''}
-                            onChange={handleChange}
-                            placeholder="0"
-                            style={{ paddingLeft: '28px' }}
-                        />
-                    </div>
-                    <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: '4px' }}>
-                        Total 401(k), Medical, Dental, etc.
-                    </p>
+                    <label htmlFor="coverageLevel">Coverage Level</label>
+                    <select
+                        id="coverageLevel"
+                        name="coverageLevel"
+                        value={values.coverageLevel}
+                        onChange={handleChange}
+                    >
+                        <option value="minimum">Minimum (Liability Only)</option>
+                        <option value="standard">Standard (Liability + Collision)</option>
+                        <option value="full">Full (Comprehensive)</option>
+                    </select>
                 </div>
 
-                {/* Primary CTA - Even though it's real-time, the button reinforces action/intent */}
+                {/* Primary CTA */}
                 <button className="btn-primary" type="button">
-                    Calculate
+                    Get Estimate
                 </button>
 
             </div>

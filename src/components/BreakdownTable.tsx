@@ -1,50 +1,36 @@
 import React from 'react';
-import type { TaxResult } from '../logic/taxCalculations';
+import type { InsuranceResult } from '../logic/insuranceCalculations';
 
 interface BreakdownTableProps {
-    result: TaxResult;
+    result: InsuranceResult;
 }
 
-const formatMoney = (val: number) => {
-    return new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-    }).format(val);
-};
-
 export const BreakdownTable: React.FC<BreakdownTableProps> = ({ result }) => {
-    const rows = [
-        { label: 'Gross Pay', amount: result.grossPayPerCheck, isTotal: false, isDeduction: false },
-        { label: 'Federal Withholding', amount: result.federalTaxPerCheck, isTotal: false, isDeduction: true },
-        { label: 'Estimated State Tax (Simplified)', amount: result.stateTaxPerCheck, isTotal: false, isDeduction: true },
-        { label: 'FICA (SS + Medicare)', amount: result.ficaPerCheck, isTotal: false, isDeduction: true },
-        { label: 'Net Pay', amount: result.netPayPerCheck, isTotal: true, isDeduction: false },
-    ];
-
     return (
         <div className="card" style={{ padding: '0' }}>
             <div style={{ padding: 'var(--space-4) var(--space-6)', borderBottom: '1px solid var(--color-border)' }}>
-                <h3 style={{ fontSize: '1rem' }}>Paycheck Breakdown</h3>
+                <h3 style={{ fontSize: '1rem' }}>Coverage Details</h3>
             </div>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9375rem' }}>
                 <tbody>
-                    {rows.map((row, idx) => (
+                    {result.coverageDetails.map((detail, idx) => (
                         <tr key={idx} style={{
-                            borderBottom: idx === rows.length - 1 ? 'none' : '1px solid var(--color-border)',
+                            borderBottom: idx === result.coverageDetails.length - 1 ? 'none' : '1px solid var(--color-border)',
                             backgroundColor: idx % 2 === 0 ? 'transparent' : '#F8FAFC'
                         }}>
-                            <td style={{ padding: 'var(--space-3) var(--space-6)', color: 'var(--color-text-secondary)' }}>
-                                {row.label}
+                            <td style={{
+                                padding: 'var(--space-3) var(--space-6)',
+                                color: 'var(--color-text-secondary)'
+                            }}>
+                                {detail.label}
                             </td>
                             <td style={{
                                 padding: 'var(--space-3) var(--space-6)',
                                 textAlign: 'right',
-                                fontWeight: row.isTotal ? 700 : 400,
-                                color: row.isDeduction ? '#EF4444' : (row.isTotal ? 'var(--color-primary)' : 'inherit')
+                                fontWeight: 600,
+                                color: detail.included ? '#10B981' : '#94A3B8'
                             }}>
-                                {row.isDeduction ? '-' : ''}{formatMoney(row.amount)}
+                                {detail.included ? 'Included' : 'Not Included'}
                             </td>
                         </tr>
                     ))}
